@@ -1,0 +1,74 @@
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Clients</title>
+    </h:head>
+    <h:body>
+        <h:form id="clientsForm">
+            <p:growl id="message" showDetail="true" />
+            
+            <p:button value="New" icon="ui-icon-plus" outcome="client"/>
+            
+            <h:panelGrid columns="5" cellpadding="5" id="search">
+                <p:selectOneMenu id="console" value="#{clientController.searchField}" style="width:125px">
+                    <f:selectItem itemLabel="Select field" itemValue="" />
+                    <f:selectItem itemLabel="Id" itemValue="id"/>
+                    <f:selectItem itemLabel="First Name" itemValue="firstName"/>
+                    <f:selectItem itemLabel="Last Name" itemValue="lastName"/>
+                    <f:selectItem itemLabel="Phone" itemValue="phone"/>
+                    <f:selectItem itemLabel="Comment" itemValue="comment"/>
+                </p:selectOneMenu>
+                <p:inputText id="searchFieldValue" value="#{clientController.searchFieldValue}" />
+                <p:commandButton action="#{clientController.search()}" value="Search" icon="ui-icon-search" update="@form"/>
+            </h:panelGrid>
+            
+            <p:dataTable value="#{clientsDatatable.clients}" var="client" rows="20" paginator="true">
+                <p:column sortBy="#{client.id}">
+                    <f:facet name="header">Client Id</f:facet>
+                        #{client.id}
+                </p:column>
+                <p:column sortBy="#{client.firstName}">
+                    <f:facet name="header">First Name</f:facet>
+                        #{client.firstName}
+                </p:column>
+                <p:column sortBy="#{client.lastName}">
+                    <f:facet name="header">Last Name</f:facet>
+                        #{client.lastName}
+                </p:column>
+                <p:column sortBy="#{client.phoneNumber}">
+                    <f:facet name="header">Phone</f:facet>
+                        #{client.phoneNumber}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Comment</f:facet>
+                        #{client.comment}
+                </p:column>
+                <p:column sortBy="#{client.creationDate}">
+                    <f:facet name="header">Creation Date</f:facet>
+                        #{client.creationDate}
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:button outcome="client" value="Edit" icon="ui-icon-pencil">
+                        <f:param name="clientId" value="#{client.id}" />
+                    </p:button>
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:commandButton value="Delete" icon="ui-icon-trash" actionListener="#{clientController.removeClient(client)}" update="@form">
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete client from database?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </h:body>
+</html>

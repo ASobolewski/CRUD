@@ -1,0 +1,8 @@
+com/recruitment/crud/ClientsDatabase.class
+com/recruitment/crud/Client.class
+com/recruitment/crud/ClientForm.class
+com/recruitment/crud/Client$1.class
+com/recruitment/crud/controllers/ClientController.class
+com/recruitment/crud/Client$Builder.class
+com/recruitment/crud/ClientsDatatable.class
+com/recruitment/crud/Database.class

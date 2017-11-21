@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Client</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+        <f:metadata>
+            <f:viewParam name="clientId" value="#{clientForm.clientId}"/>
+            <f:event type="preRenderView" listener="#{clientController.preRenderFormEvent}"/>
+        </f:metadata>
+        <p:panel id="clientPanel" header="Client">
+            <h:form>
+                <p:growl id="message" showDetail="true" sticky="false" /> 
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel rendered="#{clientForm.idRendered()}" for="clientId" value="Client Id"/>
+                    <p:inputText rendered="#{clientForm.idRendered()}" id="clientId" value="#{clientForm.client.id}" readonly="true"/>
+                    <p:message rendered="#{clientForm.idRendered()}" for="clientId"/>
+
+                    <p:outputLabel for="firstName" value="First Name"/>
+                    <p:inputText id="firstName" value="#{clientForm.client.firstName}" required="true">
+                        <f:validateRegex pattern="^[a-zA-Z]+$" />
+                        <p:ajax update="msgFirstName" event="keyup" />
+                    </p:inputText>
+                    <p:message for="firstName" id="msgFirstName"/>
+
+                    <p:outputLabel for="lastName" value="Last Name"/>
+                    <p:inputText id="lastName" value="#{clientForm.client.lastName}" required="true">
+                        <f:validateRegex pattern="^[a-zA-Z]+$" />
+                        <p:ajax update="msgLastName" event="keyup" />
+                    </p:inputText>
+                    <p:message for="lastName" id="msgLastName"/>
+
+                    <p:outputLabel for="phoneNumber" value="Phone Number"/>
+                    <p:inputText id="phoneNumber" value="#{clientForm.client.phoneNumber}" required="true">
+                        <!--<f:validateLength minimum="2" />-->
+                        <p:ajax update="msgPhoneNumber" event="keyup" />
+                    </p:inputText>
+                    <p:message for="phoneNumber" id="msgPhoneNumber"/>
+
+                    <p:outputLabel for="comment" value="Comment"/>
+                    <p:inputText id="comment" value="#{clientForm.client.comment}"/>
+                    <h:message for="comment"/>
+
+                    <p:outputLabel rendered="#{clientForm.dateRendered()}" for="createdDate" value="Creation Date"/>
+                    <p:inputText rendered="#{clientForm.dateRendered()}" id="createdDate" value="#{clientForm.client.creationDate}" readonly="true"/>
+                    <h:message rendered="#{clientForm.dateRendered()}" for="createdDate"/>    
+                </h:panelGrid>
+                <p:commandButton action="#{clientController.saveClient(clientForm.client)}" value="Save" update="message"/>
+                <p:button outcome="index" value="Cancel"/>
+            </h:form>
+        </p:panel>
+    </h:body>
+</html>
